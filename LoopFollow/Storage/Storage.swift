@@ -178,6 +178,9 @@ class Storage {
     var bolusIncrement = SecureStorageValue<HKQuantity>(key: "bolusIncrement", defaultValue: HKQuantity(unit: .internationalUnit(), doubleValue: 0.05))
     var bolusIncrementDetected = StorageValue<Bool>(key: "bolusIncrementDetected", defaultValue: false)
 
+    // Recent carb entry for bolus calculator
+    var recentCarbEntry = StorageValue<RecentCarbEntry?>(key: "recentCarbEntry", defaultValue: nil as RecentCarbEntry?)
+
     static let shared = Storage()
     private init() {}
 }
