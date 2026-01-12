@@ -44,26 +44,47 @@ class ContactImageUpdater {
                     continue
                 }
 
-                let predicate = CNContact.predicateForContacts(matchingName: contactName)
-                let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactImageDataKey] as [CNKeyDescriptor]
-
                 do {
+                    // First check if a contact with this name already exists (following Trio's pattern)
+                    // Use predicateForContacts(matchingName:) like Trio does, but filter for exact matches
+                    let predicate = CNContact.predicateForContacts(matchingName: contactName)
+                    let keysToFetch = [
+                        CNContactIdentifierKey as CNKeyDescriptor,
+                        CNContactGivenNameKey as CNKeyDescriptor,
+                        CNContactImageDataKey as CNKeyDescriptor
+                    ]
+                    
                     let contacts = try self.contactStore.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
-
-                    if let contact = contacts.first, let mutableContact = contact.mutableCopy() as? CNMutableContact {
-                        mutableContact.imageData = imageData
-                        let saveRequest = CNSaveRequest()
-                        saveRequest.update(mutableContact)
+                    // Filter for exact given name match to avoid partial matches
+                    let existingContacts = contacts.filter { $0.givenName == contactName }
+                    
+                    let saveRequest = CNSaveRequest()
+                    
+                    if let existingContact = existingContacts.first {
+                        // Contact exists, update it
+                        // If there are duplicates, delete them and keep only the first one
+                        for duplicateContact in existingContacts.dropFirst() {
+                            if let mutableDuplicate = duplicateContact.mutableCopy() as? CNMutableContact {
+                                saveRequest.delete(mutableDuplicate)
+                            }
+                        }
+                        
+                        // Update the first (or only) contact
+                        if let mutableContact = existingContact.mutableCopy() as? CNMutableContact {
+                            mutableContact.imageData = imageData
+                            saveRequest.update(mutableContact)
+                        }
+                        
                         try self.contactStore.execute(saveRequest)
-                        print("Contact image updated successfully for \(contactName).")
+                        LogManager.shared.log(category: .contact, message: "Contact image updated successfully for \(contactName).")
                     } else {
+                        // No existing contact found, create a new one (following Trio's createContact pattern)
                         let newContact = CNMutableContact()
                         newContact.givenName = contactName
                         newContact.imageData = imageData
-                        let saveRequest = CNSaveRequest()
                         saveRequest.add(newContact, toContainerWithIdentifier: nil)
                         try self.contactStore.execute(saveRequest)
-                        print("New contact created with updated image for \(contactName).")
+                        LogManager.shared.log(category: .contact, message: "New contact created with updated image for \(contactName).")
                     }
                 } catch {
                     LogManager.shared.log(category: .contact, message: "Failed to update or create contact for \(contactName): \(error)")
