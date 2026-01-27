@@ -87,8 +87,8 @@ struct BolusView: View {
                                     .foregroundColor(.secondary)
                             }
                         }
-                        .buttonStyle(PlainButtonStyle())
-                    ) {
+                        .buttonStyle(PlainButtonStyle()))
+                    {
                         if isCalculatorExpanded {
                             HStack {
                                 Text("Carbs")

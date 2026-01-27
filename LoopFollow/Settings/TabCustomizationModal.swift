@@ -3,7 +3,7 @@
 
 import SwiftUI
 
-// Represents either a TabItem or Settings in the drag-and-drop list
+/// Represents either a TabItem or Settings in the drag-and-drop list
 enum TabCustomizationItem: Identifiable, Equatable, Hashable {
     case tabItem(TabItem)
     case settings

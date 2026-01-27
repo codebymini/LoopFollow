@@ -44,7 +44,7 @@ enum TabPosition: String, CaseIterable, Codable, Comparable {
         }
     }
 
-    // Comparable conformance for sorting
+    /// Comparable conformance for sorting
     static func < (lhs: TabPosition, rhs: TabPosition) -> Bool {
         let order: [TabPosition] = [.position1, .position2, .position3, .position4, .menu, .more, .disabled]
         guard let lhsIndex = order.firstIndex(of: lhs),
@@ -63,7 +63,9 @@ enum TabItem: String, CaseIterable, Codable, Identifiable {
     case statistics
     case treatments
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     var displayName: String {
         switch self {
@@ -92,7 +94,6 @@ enum TabItem: String, CaseIterable, Codable, Identifiable {
     /// Whether this item is fully implemented (false = coming soon)
     var isImplemented: Bool {
         switch self {
-        case .statistics, .treatments: return false
         default: return true
         }
     }

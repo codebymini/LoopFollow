@@ -31,7 +31,7 @@ struct LoopAPNSBolusView: View {
     @State private var recentCarbSuggestion: (carbs: Double, bolus: Double, minutesAgo: Int)? = nil
     @FocusState private var carbsFieldIsFocused: Bool
 
-    // Computed property to check if TOTP should be blocked
+    /// Computed property to check if TOTP should be blocked
     private var isTOTPBlocked: Bool {
         TOTPService.shared.isTOTPBlocked(qrCodeURL: Storage.shared.loopAPNSQrCodeURL.value)
     }
@@ -62,8 +62,8 @@ struct LoopAPNSBolusView: View {
                                     .foregroundColor(.secondary)
                             }
                         }
-                        .buttonStyle(PlainButtonStyle())
-                    ) {
+                        .buttonStyle(PlainButtonStyle()))
+                    {
                         if isCalculatorExpanded {
                             HStack {
                                 Text("Carbs")

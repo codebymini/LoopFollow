@@ -119,9 +119,7 @@ class LoopAPNSService {
         let hasBasicSetup = hasKeyId && hasAPNSKey && hasQrCode
 
         // For full validation (after device token is fetched), check everything
-        let hasFullSetup = hasBasicSetup && hasDeviceToken && hasBundleIdentifier
-
-        return hasFullSetup
+        return hasBasicSetup && hasDeviceToken && hasBundleIdentifier
     }
 
     /// Sends carbs via APNS push notification

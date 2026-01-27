@@ -147,20 +147,10 @@ class MoreMenuViewController: UIViewController {
         case .snoozer:
             openSnoozer()
         case .statistics:
-            showComingSoon("Statistics")
+            openAggregatedStats()
         case .treatments:
-            showComingSoon("Treatments")
+            openTreatments()
         }
-    }
-
-    private func showComingSoon(_ feature: String) {
-        let alert = UIAlertController(
-            title: feature,
-            message: "This feature is coming soon.",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
     }
 
     private func openSettings() {
@@ -246,11 +236,10 @@ class MoreMenuViewController: UIViewController {
         let treatmentsVC = UIHostingController(rootView: TreatmentsView())
         let navController = UINavigationController(rootViewController: treatmentsVC)
 
-        // Apply dark mode if needed
-        if Storage.shared.forceDarkMode.value {
-            treatmentsVC.overrideUserInterfaceStyle = .dark
-            navController.overrideUserInterfaceStyle = .dark
-        }
+        // Apply appearance mode
+        let style = Storage.shared.appearanceMode.value.userInterfaceStyle
+        treatmentsVC.overrideUserInterfaceStyle = style
+        navController.overrideUserInterfaceStyle = style
 
         // Add a close button
         treatmentsVC.navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -274,11 +263,10 @@ class MoreMenuViewController: UIViewController {
         )
         let navController = UINavigationController(rootViewController: statsVC)
 
-        // Apply dark mode if needed
-        if Storage.shared.forceDarkMode.value {
-            statsVC.overrideUserInterfaceStyle = .dark
-            navController.overrideUserInterfaceStyle = .dark
-        }
+        // Apply appearance mode
+        let style = Storage.shared.appearanceMode.value.userInterfaceStyle
+        statsVC.overrideUserInterfaceStyle = style
+        navController.overrideUserInterfaceStyle = style
 
         // Add a close button
         statsVC.navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -314,10 +302,9 @@ class MoreMenuViewController: UIViewController {
         let snoozerVC = storyboard.instantiateViewController(withIdentifier: "SnoozerViewController")
         let navController = UINavigationController(rootViewController: snoozerVC)
 
-        if Storage.shared.forceDarkMode.value {
-            snoozerVC.overrideUserInterfaceStyle = .dark
-            navController.overrideUserInterfaceStyle = .dark
-        }
+        let style = Storage.shared.appearanceMode.value.userInterfaceStyle
+        snoozerVC.overrideUserInterfaceStyle = style
+        navController.overrideUserInterfaceStyle = style
 
         snoozerVC.navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .done,
@@ -345,9 +332,7 @@ class MoreMenuViewController: UIViewController {
         let homeModalView = HomeModalView()
         let hostingController = UIHostingController(rootView: homeModalView)
 
-        if Storage.shared.forceDarkMode.value {
-            hostingController.overrideUserInterfaceStyle = .dark
-        }
+        hostingController.overrideUserInterfaceStyle = Storage.shared.appearanceMode.value.userInterfaceStyle
 
         hostingController.modalPresentationStyle = .fullScreen
         present(hostingController, animated: true)

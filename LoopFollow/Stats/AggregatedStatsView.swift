@@ -82,6 +82,7 @@ struct AggregatedStatsView: View {
                 }
             )
         }
+        .preferredColorScheme(Storage.shared.appearanceMode.value.colorScheme)
     }
 }
 

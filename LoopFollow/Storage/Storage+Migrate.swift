@@ -227,7 +227,7 @@ extension Storage {
             var cfg = Storage.shared.alarmConfiguration.value
             let cal = Calendar.current
 
-            /// Copy *one* legacy value → struct field → delete old key
+            // Copy *one* legacy value → struct field → delete old key
             func move<T: AnyConvertible & Equatable>(
                 _ legacy: @autoclosure () -> UserDefaultsValue<T>,
                 write: (inout AlarmConfiguration, T) -> Void
@@ -418,7 +418,7 @@ extension Storage {
         // Did the user ever change that alert?  (No key ⇒ nothing to do.)
         guard UserDefaultsValue<Bool>(key: "alertUrgentLowActive", default: false).exists else { return }
 
-        /// Helper: fetch-then-delete a legacy value in one line.
+        // Helper: fetch-then-delete a legacy value in one line.
         func take<V: AnyConvertible & Equatable>(_ key: String, default def: V) -> V {
             let box = UserDefaultsValue<V>(key: key, default: def)
             defer { box.setNil(key: key) }
@@ -435,16 +435,19 @@ extension Storage {
         alarm.snoozedUntil = take("alertUrgentLowSnoozedTime", default: nil as Date?)
         alarm.soundFile = SoundFile(
             rawValue: take("alertUrgentLowSound",
-                           default: "Emergency_Alarm_Siren"))
+                           default: "Emergency_Alarm_Siren")
+        )
             ?? .emergencyAlarmSiren
 
         alarm.playSoundOption = PlaySoundOption(
             rawValue: take("alertUrgentLowAudible",
-                           default: "Always").lowercased()) ?? .always
+                           default: "Always").lowercased()
+        ) ?? .always
 
         alarm.repeatSoundOption = RepeatSoundOption(
             rawValue: take("alertUrgentLowRepeat",
-                           default: "Always").lowercased()) ?? .always
+                           default: "Always").lowercased()
+        ) ?? .always
 
         // Day / Night active-window (“Pre-Snooze”)
         let autoStr = take("alertUrgentLowAutosnooze", default: "Never").lowercased()
@@ -496,15 +499,18 @@ extension Storage {
         alarm.snoozedUntil = take("alertLowSnoozedTime", default: nil as Date?)
         alarm.soundFile = SoundFile(
             rawValue: take("alertLowSound",
-                           default: "Indeed")) ?? .indeed
+                           default: "Indeed")
+        ) ?? .indeed
 
         alarm.playSoundOption = PlaySoundOption(
             rawValue: take("alertLowAudible",
-                           default: "Always").lowercased()) ?? .always
+                           default: "Always").lowercased()
+        ) ?? .always
 
         alarm.repeatSoundOption = RepeatSoundOption(
             rawValue: take("alertLowRepeat",
-                           default: "Always").lowercased()) ?? .always
+                           default: "Always").lowercased()
+        ) ?? .always
 
         // activeOption  ← legacy “Pre-Snooze” flags / picker
         let autoStr = take("alertLowAutosnooze", default: "Never").lowercased()
@@ -531,7 +537,7 @@ extension Storage {
         // Only run if the legacy key ever existed
         guard UserDefaultsValue<Bool>(key: "alertHighActive", default: false).exists else { return }
 
-        /// Fetch → erase helper
+        // Fetch → erase helper
         func take<V: AnyConvertible & Equatable>(_ key: String, default def: V) -> V {
             let box = UserDefaultsValue<V>(key: key, default: def)
             defer { box.setNil(key: key) } // remove legacy value
@@ -550,15 +556,18 @@ extension Storage {
 
         alarm.soundFile = SoundFile(
             rawValue: take("alertHighSound",
-                           default: "Time_Has_Come")) ?? .timeHasCome
+                           default: "Time_Has_Come")
+        ) ?? .timeHasCome
 
         alarm.playSoundOption = PlaySoundOption(
             rawValue: take("alertHighAudible",
-                           default: "Always").lowercased()) ?? .always
+                           default: "Always").lowercased()
+        ) ?? .always
 
         alarm.repeatSoundOption = RepeatSoundOption(
             rawValue: take("alertHighRepeat",
-                           default: "Always").lowercased()) ?? .always
+                           default: "Always").lowercased()
+        ) ?? .always
 
         // ── activeOption derived from “Pre-Snooze” picker & flags
         let autoStr = take("alertHighAutosnooze", default: "Never").lowercased()
@@ -603,15 +612,18 @@ extension Storage {
 
         alarm.soundFile = SoundFile(
             rawValue: take("alertUrgentHighSound",
-                           default: "Pager_Beeps")) ?? .pagerBeeps
+                           default: "Pager_Beeps")
+        ) ?? .pagerBeeps
 
         alarm.playSoundOption = PlaySoundOption(
             rawValue: take("alertUrgentHighAudible",
-                           default: "Always").lowercased()) ?? .always
+                           default: "Always").lowercased()
+        ) ?? .always
 
         alarm.repeatSoundOption = RepeatSoundOption(
             rawValue: take("alertUrgentHighRepeat",
-                           default: "Always").lowercased()) ?? .always
+                           default: "Always").lowercased()
+        ) ?? .always
 
         // activeOption comes from the old “Pre-Snooze” picker + its day/night flags
         let autoStr = take("alertUrgentHighAutosnooze", default: "Never").lowercased()
@@ -922,9 +934,11 @@ extension Storage {
         // carb / bolus filters
         alarm.delta = take("alertMissedBolusIgnoreBolus", 0.5)
         alarm.threshold = Double(
-            take("alertMissedBolusLowGrams", 10))
+            take("alertMissedBolusLowGrams", 10)
+        )
         alarm.aboveBG = Double(
-            take("alertMissedBolusLowGramsBG", 70.0))
+            take("alertMissedBolusLowGramsBG", 70.0)
+        )
 
         // sound & tone
         alarm.soundFile = SoundFile(rawValue:
@@ -979,7 +993,7 @@ extension Storage {
 
     //  MARK: SAGE  →  .sensorChange
 
-    // ─────────────────────────────────────────────────────────────────────────────
+    /// ─────────────────────────────────────────────────────────────────────────────
     private func migrateSensorChangeAlarm() {
         // Was the old setting ever stored?
         let flag = UserDefaultsValue<Bool>(key: "alertSAGEActive", default: false)
@@ -1049,7 +1063,7 @@ extension Storage {
 
     //  MARK: CAGE  →  .pumpChange
 
-    // ─────────────────────────────────────────────────────────────────────────────
+    /// ─────────────────────────────────────────────────────────────────────────────
     private func migratePumpChangeAlarm() {
         let flag = UserDefaultsValue<Bool>(key: "alertCAGEActive", default: false)
         guard flag.exists else { return }
@@ -1116,7 +1130,7 @@ extension Storage {
 
     //  MARK: Override-Start  →  .overrideStart
 
-    // ─────────────────────────────────────────────────────────────────────────────
+    /// ─────────────────────────────────────────────────────────────────────────────
     private func migrateOverrideStartAlarm() {
         let exists = UserDefaultsValue<Bool>(key: "alertOverrideStart", default: false)
         guard exists.exists else { return } // user never touched it
@@ -1189,7 +1203,7 @@ extension Storage {
 
     //  MARK: Override-End  →  .overrideEnd
 
-    // ─────────────────────────────────────────────────────────────────────────────
+    /// ─────────────────────────────────────────────────────────────────────────────
     private func migrateOverrideEndAlarm() {
         let exists = UserDefaultsValue<Bool>(key: "alertOverrideEnd", default: false)
         guard exists.exists else { return }
@@ -1624,9 +1638,9 @@ extension Storage {
         Storage.shared.alarms.value.append(alarm)
     }
 
-    // =============================================================================
-    //  BATTERY-LEVEL alarm  (old keys → .battery)
-    // =============================================================================
+    /// =============================================================================
+    ///  BATTERY-LEVEL alarm  (old keys → .battery)
+    /// =============================================================================
     private func migrateBatteryAlarm() {
         guard UserDefaultsValue<Bool>(key: "alertBatteryActive",
                                       default: false).exists else { return }
@@ -1650,9 +1664,9 @@ extension Storage {
         Storage.shared.alarms.value.append(alarm)
     }
 
-    // =============================================================================
-    //  BATTERY-DROP alarm  (old keys → .batteryDrop)
-    // =============================================================================
+    /// =============================================================================
+    ///  BATTERY-DROP alarm  (old keys → .batteryDrop)
+    /// =============================================================================
     private func migrateBatteryDropAlarm() {
         guard UserDefaultsValue<Bool>(key: "alertBatteryDropActive",
                                       default: false).exists else { return }
@@ -1676,9 +1690,9 @@ extension Storage {
         Storage.shared.alarms.value.append(alarm)
     }
 
-    // =============================================================================
-    //  REC-BOLUS alarm  (old keys → .recBolus)
-    // =============================================================================
+    /// =============================================================================
+    ///  REC-BOLUS alarm  (old keys → .recBolus)
+    /// =============================================================================
     private func migrateRecBolusAlarm() {
         guard UserDefaultsValue<Bool>(key: "alertRecBolusActive",
                                       default: false).exists else { return }
