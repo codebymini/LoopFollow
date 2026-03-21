@@ -188,6 +188,8 @@ class Storage {
     var showGMI = StorageValue<Bool>(key: "showGMI", defaultValue: true)
     var showStdDev = StorageValue<Bool>(key: "showStdDev", defaultValue: true)
     var showTITR = StorageValue<Bool>(key: "showTITR", defaultValue: false)
+    // Recent carb entry for bolus calculator
+    var recentCarbEntry = StorageValue<RecentCarbEntry?>(key: "recentCarbEntry", defaultValue: nil as RecentCarbEntry?)
 
     static let shared = Storage()
     private init() {}
