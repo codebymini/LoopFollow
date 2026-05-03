@@ -262,7 +262,7 @@ enum MenuRoute: Hashable {
     var destination: some View {
         switch self {
         case .home: HomeContentView(isModal: true)
-        case .alarms: AlarmsContainerView()
+        case .alarms: AlarmsContainerView(embedsInNavigationStack: false)
         case .remote: RemoteContentView()
         case .nightscout: NightscoutContentView()
         case .snoozer: SnoozerView()
