@@ -1,6 +1,8 @@
 // LoopFollow
 // AggregatedStatsView.swift
 
+import AIDReportKit
+import AIDReportUI
 import SwiftUI
 
 struct AggregatedStatsView: View {
@@ -16,6 +18,7 @@ struct AggregatedStatsView: View {
     @State private var loadingError = false
     @State private var loadingTimer: Timer?
     @State private var timeoutTimer: Timer?
+    @State private var showReportExport = false
 
     init(viewModel: AggregatedStatsViewModel, onDismiss: (() -> Void)? = nil) {
         self.viewModel = viewModel
@@ -115,6 +118,17 @@ struct AggregatedStatsView: View {
                     }
                 }
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: { showReportExport = true }) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .accessibilityLabel("Export statistics report")
+                // Reports read Nightscout; a Dexcom Share-only setup has no treatments to report.
+                .disabled(!IsNightscoutEnabled())
+            }
+        }
+        .sheet(isPresented: $showReportExport) {
+            ReportExportView(presetStore: JSONFileReportPresetStore.applicationSupport(), makeReport: LoopFollowStats.makeReport)
         }
         .onAppear {
             loadingError = false
