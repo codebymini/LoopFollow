@@ -12,6 +12,9 @@
 		37A4BDE82F5B6B4C00EEB289 /* LoopFollowLAExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 37A4BDD92F5B6B4A00EEB289 /* LoopFollowLAExtensionExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3F1335F351590E573D8E6962 /* Pods_LoopFollow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7D55B42A22051DAD69E89D0 /* Pods_LoopFollow.framework */; };
 		DD50C10A2F60A00000000001 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = DD50C10A2F60A00000000003 /* SocketIO */; };
+		0A61CB8DECDFB71E0C603FAE /* AIDReportKit in Frameworks */ = {isa = PBXBuildFile; productRef = 244D93E85814CBCEA88F85C4 /* AIDReportKit */; };
+		30FFA512952319F8ACC5959A /* AIDReportNightscout in Frameworks */ = {isa = PBXBuildFile; productRef = 313A972D91EA9CBA5833D99C /* AIDReportNightscout */; };
+		6C346890AF2A3AEAC4FDFB53 /* AIDReportUI in Frameworks */ = {isa = PBXBuildFile; productRef = 15CBA6DD47B3289005569254 /* AIDReportUI */; };
 		DDB0AF552BB1B24A00AFA48B /* BuildDetails.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDB0AF542BB1B24A00AFA48B /* BuildDetails.plist */; };
 		DDCFCAF22B17273200BE5751 /* LoopFollowDisplayNameConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DDCFCAF12B17273200BE5751 /* LoopFollowDisplayNameConfig.xcconfig */; };
 		DDF2C0142BEFD468007A20E6 /* blacklisted-versions.json in Resources */ = {isa = PBXBuildFile; fileRef = DDF2C0132BEFD468007A20E6 /* blacklisted-versions.json */; };
@@ -293,6 +296,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD50C10A2F60A00000000001 /* SocketIO in Frameworks */,
+				0A61CB8DECDFB71E0C603FAE /* AIDReportKit in Frameworks */,
+				30FFA512952319F8ACC5959A /* AIDReportNightscout in Frameworks */,
+				6C346890AF2A3AEAC4FDFB53 /* AIDReportUI in Frameworks */,
 				FCFEEC9E2486E68E00402A7F /* WebKit.framework in Frameworks */,
 				3F1335F351590E573D8E6962 /* Pods_LoopFollow.framework in Frameworks */,
 			);
@@ -467,6 +473,9 @@
 			name = LoopFollow;
 			packageProductDependencies = (
 				DD50C10A2F60A00000000003 /* SocketIO */,
+				244D93E85814CBCEA88F85C4 /* AIDReportKit */,
+				313A972D91EA9CBA5833D99C /* AIDReportNightscout */,
+				15CBA6DD47B3289005569254 /* AIDReportUI */,
 			);
 			productName = LoopFollow;
 			productReference = FC9788142485969B00A7906C /* Loop Follow.app */;
@@ -583,6 +592,7 @@
 			mainGroup = FC97880B2485969B00A7906C;
 			packageReferences = (
 				DD50C10A2F60A00000000002 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+				A939E60A1595BC81DE011F7D /* XCLocalSwiftPackageReference "../AIDReportKit" */,
 			);
 			productRefGroup = FC9788152485969B00A7906C /* Products */;
 			projectDirPath = "";
@@ -1393,6 +1403,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		A939E60A1595BC81DE011F7D /* XCLocalSwiftPackageReference "../AIDReportKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../AIDReportKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		DD50C10A2F60A00000000002 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -1409,6 +1426,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DD50C10A2F60A00000000002 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
 			productName = SocketIO;
+		};
+		244D93E85814CBCEA88F85C4 /* AIDReportKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A939E60A1595BC81DE011F7D /* XCLocalSwiftPackageReference "../AIDReportKit" */;
+			productName = AIDReportKit;
+		};
+		313A972D91EA9CBA5833D99C /* AIDReportNightscout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A939E60A1595BC81DE011F7D /* XCLocalSwiftPackageReference "../AIDReportKit" */;
+			productName = AIDReportNightscout;
+		};
+		15CBA6DD47B3289005569254 /* AIDReportUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A939E60A1595BC81DE011F7D /* XCLocalSwiftPackageReference "../AIDReportKit" */;
+			productName = AIDReportUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
