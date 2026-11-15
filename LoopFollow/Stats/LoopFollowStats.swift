@@ -57,7 +57,7 @@ enum LoopFollowStats {
     }
 
     /// Report from Nightscout, in the looper's time zone, with the site's basal profile filling
-    /// gaps between temp basals.
+    /// gaps between temp basals and its carb ratios, ISF and targets on the Insulin and Settings pages.
     static func report(_ definition: ReportDefinition = .standard) async throws -> TherapyReport? {
         guard let site = nightscoutSource() else { return nil }
         // The report is still worth having without the profile: it then keeps this device's
@@ -71,6 +71,7 @@ enum LoopFollowStats {
         let source = site.usingTimeZone(reportTimeZone(profile: profile?.timeZone))
         let options = ReportOptions(
             basalSchedule: profile?.basalSchedule,
+            therapySettings: profile?.therapySettings,
             metadata: ReportMetadata(appName: "LoopFollow", appVersion: info.appVersion)
         )
         return try await AIDReport.generate(definition, from: source, options: options)
